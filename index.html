@@ -1,0 +1,647 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="theme-color" content="#ffffff">
+    <title>דוח התקדמות - נעמה הלפרסון</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Assistant:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <style>
+        body {
+            font-family: 'Assistant', sans-serif;
+            background-color: #f8fafc;
+            -webkit-tap-highlight-color: transparent;
+            padding-bottom: env(safe-area-inset-bottom);
+        }
+        
+        /* iOS Safe Area Utilities */
+        .pt-safe { padding-top: env(safe-area-inset-top); }
+        .pb-safe { padding-bottom: env(safe-area-inset-bottom); }
+
+        .tab-active {
+            color: #db2777;
+            border-bottom: 2px solid #db2777;
+            background-color: rgba(219, 39, 119, 0.05);
+        }
+        
+        /* Disable pull-to-refresh feel on body to simulate app */
+        body { overscroll-behavior-y: none; }
+        
+        .placeholder-text {
+            color: #9ca3af;
+            font-style: italic;
+        }
+
+        /* Custom Checkbox Styling */
+        .task-checkbox:checked + div {
+            text-decoration: line-through;
+            color: #9ca3af;
+        }
+        .task-checkbox:checked + div .check-icon {
+            opacity: 1;
+            transform: scale(1);
+        }
+        .check-icon {
+            opacity: 0;
+            transform: scale(0.5);
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        /* Toast Notification - iOS Style */
+        #toast {
+            visibility: hidden;
+            min-width: 90%; 
+            background-color: rgba(30, 30, 30, 0.95);
+            backdrop-filter: blur(10px);
+            color: #fff; 
+            text-align: center; 
+            border-radius: 50px; 
+            padding: 16px; 
+            position: fixed; 
+            z-index: 100; 
+            left: 50%; 
+            top: 20px; /* Top notification looks better on iOS */
+            transform: translateX(-50%) translateY(-100px);
+            opacity: 0;
+            transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275); 
+            font-weight: 600;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        }
+        #toast.show {
+            visibility: visible;
+            opacity: 1;
+            transform: translateX(-50%) translateY(env(safe-area-inset-top));
+        }
+
+        /* Prevent zoom on inputs for iOS */
+        input, select, textarea {
+            font-size: 16px !important; 
+        }
+
+        /* Smooth scrolling */
+        .smooth-scroll {
+            -webkit-overflow-scrolling: touch;
+        }
+    </style>
+</head>
+<body class="text-slate-800">
+
+    <!-- Sticky Header Background for Notch -->
+    <div class="fixed top-0 left-0 w-full h-safe-top bg-white z-50 pt-safe"></div>
+
+    <div class="container relative mx-auto bg-white sm:rounded-3xl sm:shadow-2xl sm:my-8 min-h-screen sm:min-h-[calc(100vh-4rem)] overflow-hidden max-w-4xl">
+        
+        <!-- App Header -->
+        <header class="relative text-center pt-8 pb-6 px-4 pt-safe bg-white z-40">
+            <!-- Logo SVG -->
+            <div class="absolute top-6 right-6 pt-safe opacity-80 scale-75 sm:scale-100">
+                <svg class="h-10 w-auto sm:h-12" viewBox="0 0 120 50" xmlns="http://www.w3.org/2000/svg">
+                    <g fill="#2d3748">
+                        <rect x="18" y="6" width="8" height="38" rx="2"/>
+                        <rect x="10" y="9" width="8" height="32" rx="2"/>
+                        <rect x="2" y="12" width="8" height="26" rx="2"/>
+                    </g>
+                    <rect x="26" y="18" width="6" height="14" rx="2" fill="#a0aec0"/>
+                    <g fill="#2d3748">
+                        <rect x="94" y="6" width="8" height="38" rx="2"/>
+                        <rect x="102" y="9" width="8" height="32" rx="2"/>
+                        <rect x="110" y="12" width="8" height="26" rx="2"/>
+                    </g>
+                    <rect x="88" y="18" width="6" height="14" rx="2" fill="#a0aec0"/>
+                    <path d="M 32 25 L 50 25 L 53 28 L 58 10 L 63 45 L 66 25 L 88 25" stroke="#ef4444" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round" fill="none"/>
+                </svg>
+            </div>
+            <h1 class="text-3xl sm:text-4xl font-black text-slate-900 tracking-tight">דוח התקדמות</h1>
+            <p class="text-base text-slate-500 font-medium">נעמה הלפרסון</p>
+        </header>
+
+        <!-- Sticky Navigation -->
+        <nav class="sticky top-0 z-30 bg-white/95 backdrop-blur-md border-b border-slate-100 shadow-sm">
+            <div class="flex overflow-x-auto smooth-scroll no-scrollbar px-2 sm:justify-center gap-1 pb-1 pt-1">
+                <button id="progressTab" class="whitespace-nowrap flex-shrink-0 py-3 px-4 sm:px-6 font-bold text-sm tab-active rounded-lg transition-all">דוח התקדמות</button>
+                <button id="homeworkTab" class="whitespace-nowrap flex-shrink-0 py-3 px-4 sm:px-6 font-bold text-sm text-slate-500 rounded-lg transition-all">שיעורי בית</button>
+                <button id="trainingTab" class="whitespace-nowrap flex-shrink-0 py-3 px-4 sm:px-6 font-bold text-sm text-slate-500 rounded-lg transition-all">אימונים</button>
+                <button id="nutritionTab" class="whitespace-nowrap flex-shrink-0 py-3 px-4 sm:px-6 font-bold text-sm text-slate-500 rounded-lg transition-all">תזונה</button>
+            </div>
+        </nav>
+
+        <main class="p-4 sm:p-8 bg-slate-50 min-h-screen sm:min-h-0">
+            <!-- Content Panes -->
+            <div id="contentPanes" class="pb-10">
+                
+                <!-- Progress Report Pane -->
+                <div id="progressContent">
+                    <div class="grid grid-cols-2 md:grid-cols-3 gap-3 sm:gap-6 mb-8">
+                        <div class="bg-white rounded-2xl shadow-sm border border-slate-100 p-4 flex flex-col items-center justify-center text-center">
+                            <h3 class="text-xs font-bold text-slate-400 uppercase tracking-wide mb-1">אימונים</h3>
+                            <p class="text-lg font-bold text-slate-800">16 בוצעו</p>
+                        </div>
+                        <div class="bg-white rounded-2xl shadow-sm border border-slate-100 p-4 flex flex-col items-center justify-center text-center">
+                            <h3 class="text-xs font-bold text-slate-400 uppercase tracking-wide mb-1">סטטוס</h3>
+                            <p class="text-lg font-bold text-green-600">שיאים חדשים! 🚀</p>
+                        </div>
+                        <div class="col-span-2 md:col-span-1 bg-white rounded-2xl shadow-sm border border-slate-100 p-4 flex flex-col items-center justify-center text-center">
+                            <h3 class="text-xs font-bold text-slate-400 uppercase tracking-wide mb-1">הישג אחרון</h3>
+                            <p class="text-lg font-bold text-pink-600">סקוואט 47.5kg ל-3! 🔥</p>
+                        </div>
+                    </div>
+
+                     <div class="bg-white border-r-4 border-indigo-500 p-5 rounded-2xl shadow-sm mb-8 flex items-start gap-4">
+                        <div class="bg-indigo-50 p-2 rounded-full flex-shrink-0">
+                            <i data-lucide="trophy" class="text-indigo-500 w-5 h-5"></i>
+                        </div>
+                        <div>
+                            <p class="font-bold text-slate-900 text-sm mb-1">עדכון לוהט מהשטח! 🏆</p>
+                            <p class="text-sm text-slate-600 leading-relaxed">אימון 16 מאחורינו ונעמה לא עוצרת! סקוואט עלה ל-47.5 ק"ג ל-3 חזרות, בנץ' פרס קפץ ל-25 ק"ג ל-3 חזרות, ומתח (גומיה אדומה+כתומה) ל-10 חזרות רחב. אלופה אמיתית! 🚀</p>
+                        </div>
+                    </div>
+
+                    <div class="mb-8">
+                        <h2 class="text-xl font-bold mb-4 text-slate-800 px-1">מעקב התקדמות</h2>
+                        <div class="bg-white p-4 rounded-3xl shadow-sm border border-slate-100">
+                            <div class="relative h-64 w-full">
+                                <canvas id="coreProgressChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-white rounded-3xl shadow-sm border border-slate-100 overflow-hidden">
+                        <div class="bg-slate-50/50 px-6 py-4 border-b border-slate-100 flex justify-between items-center backdrop-blur">
+                            <h2 class="text-lg font-bold text-slate-800">שיאים אישיים (PRs)</h2>
+                            <i data-lucide="medal" class="text-yellow-500 w-5 h-5"></i>
+                        </div>
+                         <div class="overflow-x-auto smooth-scroll">
+                             <table class="min-w-full divide-y divide-slate-100">
+                                <tbody class="bg-white divide-y divide-slate-50">
+                                    <tr class="active:bg-slate-50 transition-colors bg-pink-50/50">
+                                        <td class="px-6 py-4 text-sm font-bold text-slate-800">סקוואט (Squat)</td>
+                                        <td class="px-6 py-4 text-sm font-bold text-right text-pink-600" dir="ltr">47.5kg x 3 🆕</td>
+                                    </tr>
+                                    <tr class="active:bg-slate-50 transition-colors">
+                                        <td class="px-6 py-4 text-sm font-bold text-slate-800">רומני דדליפט (RDL)</td>
+                                        <td class="px-6 py-4 text-sm font-bold text-right text-pink-600" dir="ltr">42.5kg x 5 🆕</td>
+                                    </tr>
+                                    <tr class="active:bg-slate-50 transition-colors bg-pink-50/50">
+                                        <td class="px-6 py-4 text-sm font-bold text-slate-800">בנץ' פרס (Bench Press)</td>
+                                        <td class="px-6 py-4 text-sm font-bold text-right text-pink-600" dir="ltr">25kg x 3 🆕</td>
+                                    </tr>
+                                    <tr class="active:bg-slate-50 transition-colors">
+                                        <td class="px-6 py-4 text-sm font-bold text-slate-800">לחיצת חזה בסמית'</td>
+                                        <td class="px-6 py-4 text-sm font-bold text-right text-pink-600" dir="ltr">7.5kg (כל צד) x 6 🆕</td>
+                                    </tr>
+                                    <tr class="active:bg-slate-50 transition-colors">
+                                        <td class="px-6 py-4 text-sm font-bold text-slate-800">לחיצת כתפיים</td>
+                                        <td class="px-6 py-4 text-sm font-medium text-right text-green-600" dir="ltr">20kg x 5 👑</td>
+                                    </tr>
+                                    <tr class="active:bg-slate-50 transition-colors">
+                                        <td class="px-6 py-4 text-sm font-bold text-slate-800">פולי עליון (אחיזה צרה)</td>
+                                        <td class="px-6 py-4 text-sm font-bold text-right text-pink-600" dir="ltr">35kg x 5 🆕</td>
+                                    </tr>
+                                    <tr class="active:bg-slate-50 transition-colors">
+                                        <td class="px-6 py-4 text-sm font-bold text-slate-800">סקוואט בולגרי (יד אחת)</td>
+                                        <td class="px-6 py-4 text-sm font-bold text-right text-pink-600" dir="ltr">15kg x 5 🆕</td>
+                                    </tr>
+                                    <tr class="active:bg-slate-50 transition-colors">
+                                        <td class="px-6 py-4 text-sm font-bold text-slate-800">חתירה מוט</td>
+                                        <td class="px-6 py-4 text-sm font-medium text-right text-green-600" dir="ltr">22.5kg x 6 👑</td>
+                                    </tr>
+                                    <tr class="active:bg-slate-50 transition-colors">
+                                        <td class="px-6 py-4 text-sm font-bold text-slate-800">טי-בר (T-Bar Row)</td>
+                                        <td class="px-6 py-4 text-sm font-medium text-right text-green-600" dir="ltr">10kg x 6 👑</td>
+                                    </tr>
+                                    <tr class="active:bg-slate-50 transition-colors bg-pink-50/50">
+                                        <td class="px-6 py-4 text-sm font-bold text-slate-800">מתח (גומיה אדומה+כתומה)</td>
+                                        <td class="px-6 py-4 text-sm font-bold text-right text-pink-600" dir="ltr">רחב - 10 חזרות 🆕</td>
+                                    </tr>
+                                    <tr class="active:bg-slate-50 transition-colors">
+                                        <td class="px-6 py-4 text-sm font-bold text-slate-800">היפטראסט (Hip Thrust)</td>
+                                        <td class="px-6 py-4 text-sm font-bold text-right text-pink-600" dir="ltr">17.5kg (כל צד) x 6 🆕</td>
+                                    </tr>
+                                    <tr class="active:bg-slate-50 transition-colors">
+                                        <td class="px-6 py-4 text-sm font-bold text-slate-800">פשיטת ברכיים</td>
+                                        <td class="px-6 py-4 text-sm font-medium text-right text-green-600" dir="ltr">32.5kg x 8 👑</td>
+                                    </tr>
+                                    <tr class="active:bg-slate-50 transition-colors">
+                                        <td class="px-6 py-4 text-sm font-bold text-slate-800">כפיפת ברכיים בשכיבה</td>
+                                        <td class="px-6 py-4 text-sm font-medium text-right text-green-600" dir="ltr">4 x 6 👑</td>
+                                    </tr>
+                                    <tr class="active:bg-slate-50 transition-colors">
+                                        <td class="px-6 py-4 text-sm font-bold text-slate-800">לחיצת רגליים (רגל אחת)</td>
+                                        <td class="px-6 py-4 text-sm font-bold text-right text-pink-600" dir="ltr">8 חזרות 🆕</td>
+                                    </tr>
+                                    <tr class="active:bg-slate-50 transition-colors">
+                                        <td class="px-6 py-4 text-sm font-bold text-slate-800">מקבילים (Dips)</td>
+                                        <td class="px-6 py-4 text-sm font-bold text-right text-pink-600" dir="ltr">-29kg x 5 🆕</td>
+                                    </tr>
+                                    <tr class="active:bg-slate-50 transition-colors">
+                                        <td class="px-6 py-4 text-sm font-bold text-slate-800">פייספול בישיבה</td>
+                                        <td class="px-6 py-4 text-sm font-bold text-right text-pink-600" dir="ltr">17.5kg x 8 🆕</td>
+                                    </tr>
+                                    <tr class="active:bg-slate-50 transition-colors">
+                                        <td class="px-6 py-4 text-sm font-bold text-slate-800">פטישים חבל</td>
+                                        <td class="px-6 py-4 text-sm font-bold text-right text-pink-600" dir="ltr">7.5kg x 8 🆕</td>
+                                    </tr>
+                                </tbody>
+                             </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Homework Pane -->
+                <div id="homeworkContent" class="hidden">
+                    <div class="mb-6 text-center">
+                        <h2 class="text-2xl font-black text-slate-900 mb-1">משימה שבועית</h2>
+                        <p class="text-sm text-slate-500">עקביות היא המפתח</p>
+                    </div>
+
+                    <!-- Current Week Card -->
+                    <div class="bg-white rounded-3xl shadow-lg border border-slate-100 overflow-hidden">
+                        <div class="bg-pink-600 p-6 text-white flex justify-between items-center">
+                            <div>
+                                <h3 class="text-lg font-bold">השבוע הנוכחי</h3>
+                                <p class="text-pink-100 text-sm opacity-90">יעד לביצוע</p>
+                            </div>
+                            <div class="bg-white/20 p-2 rounded-xl backdrop-blur-md">
+                                <i data-lucide="calendar-check" class="h-6 w-6 text-white"></i>
+                            </div>
+                        </div>
+                        
+                        <div class="p-6">
+                            <!-- Progress Bar -->
+                            <div class="mb-6">
+                                <div class="flex justify-between mb-2">
+                                    <span class="text-xs font-bold text-slate-400 uppercase">סטטוס שבועי</span>
+                                    <span class="text-xs font-bold text-pink-600" id="progressText">0/1</span>
+                                </div>
+                                <div class="w-full bg-slate-100 rounded-full h-3 overflow-hidden">
+                                    <div id="progressBar" class="bg-pink-600 h-full rounded-full transition-all duration-500 shadow-[0_0_10px_rgba(219,39,119,0.5)]" style="width: 0%"></div>
+                                </div>
+                                
+                                <!-- Success Message & Action Buttons -->
+                                <div id="completionMessage" class="hidden mt-6 bg-green-50/80 backdrop-blur border border-green-100 rounded-2xl p-6 text-center animate-fade-in-up">
+                                    <div class="mb-4">
+                                        <div class="inline-flex items-center justify-center w-12 h-12 rounded-full bg-green-100 mb-3 animate-bounce-short">
+                                            <i data-lucide="check-check" class="w-6 h-6 text-green-600"></i>
+                                        </div>
+                                        <p class="text-lg text-green-800 font-bold">האימון הושלם! 🎉</p>
+                                        <p class="text-xs text-green-600 mt-1">עדכני את המאמן</p>
+                                    </div>
+                                    
+                                    <div class="flex flex-col gap-3">
+                                        <button id="shareBtn" class="flex items-center justify-center gap-2 bg-green-600 text-white px-6 py-3.5 rounded-xl hover:bg-green-700 active:scale-95 transition shadow-lg shadow-green-200 font-bold text-sm w-full">
+                                            <i data-lucide="send" class="w-4 h-4"></i>
+                                            <span>דווחי על האימון</span>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Tasks List -->
+                            <div class="space-y-3">
+                                <!-- Single Task -->
+                                <label class="flex items-center p-4 rounded-2xl bg-slate-50 border border-slate-100 active:scale-[0.98] active:bg-slate-100 transition-all cursor-pointer group touch-manipulation">
+                                    <input type="checkbox" class="task-checkbox hidden">
+                                    <div class="w-7 h-7 border-2 border-slate-300 rounded-lg flex items-center justify-center ml-4 group-hover:border-pink-500 transition-colors bg-white shadow-sm">
+                                        <i data-lucide="check" class="check-icon h-5 w-5 text-pink-500 stroke-[3]"></i>
+                                    </div>
+                                    <div class="flex-1">
+                                        <span class="font-bold text-slate-800 block text-base">ביצוע אימון (תוכנית חדשה)</span>
+                                        <span class="text-xs text-slate-500 font-medium">לפי העדכון האחרון</span>
+                                    </div>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Training Plans Pane -->
+                <div id="trainingContent" class="hidden">
+                    <div class="space-y-6">
+                        <!-- Guidelines Card -->
+                        <div class="bg-indigo-600 rounded-3xl p-6 text-white shadow-lg relative overflow-hidden">
+                            <div class="absolute top-0 right-0 w-32 h-32 bg-white opacity-5 rounded-full -mr-10 -mt-10"></div>
+                            <div class="relative z-10">
+                                <h2 class="text-xl font-black mb-4 flex items-center gap-2">
+                                    <i data-lucide="info" class="w-6 h-6"></i>
+                                    דגשים לביצוע
+                                </h2>
+                                <div class="grid grid-cols-1 gap-3 text-sm opacity-95">
+                                    <div class="bg-indigo-700/50 p-3 rounded-xl backdrop-blur-sm border border-indigo-500/30">
+                                        <span class="font-bold block mb-1 flex items-center gap-1"><i data-lucide="timer" class="w-3 h-3"></i> טמפו (קצב)</span>
+                                        <span class="text-indigo-100">שלב כיווץ (עליה): שנייה 1<br>שלב מתיחה (ירידה): 2-3 שניות</span>
+                                    </div>
+                                    <div class="bg-indigo-700/50 p-3 rounded-xl backdrop-blur-sm border border-indigo-500/30">
+                                        <span class="font-bold block mb-1 flex items-center gap-1"><i data-lucide="wind" class="w-3 h-3"></i> נשימה וברייסינג</span>
+                                        <span class="text-indigo-100">להקפיד על כיווץ בטן בסטים קשים. לנשום רק כשיש הפסקה בתנועה (ללא תזוזה).</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                
+                        <!-- Workout Plan -->
+                        <div class="bg-white rounded-3xl shadow-sm border border-slate-100 overflow-hidden">
+                            <div class="bg-slate-50 px-6 py-4 border-b border-slate-100 flex justify-between items-center">
+                                <div>
+                                    <h3 class="text-lg font-bold text-slate-900">תוכנית Full Body - מעודכנת</h3>
+                                    <p class="text-xs text-slate-500">סדר חדש ונפחים מעודכנים</p>
+                                </div>
+                                <div class="bg-indigo-100 text-indigo-700 p-2 rounded-lg">
+                                   <i data-lucide="dumbbell" class="w-5 h-5"></i>
+                                </div>
+                            </div>
+                            
+                            <div class="divide-y divide-slate-100">
+                                <!-- Exercise Item 1: Squat -->
+                                <div class="p-5 flex items-start gap-4 hover:bg-slate-50 transition-colors">
+                                    <div class="bg-slate-100 text-slate-500 font-bold w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 mt-1 text-sm">1</div>
+                                    <div class="flex-1">
+                                        <h4 class="font-bold text-slate-800 text-lg">סקוואט (Squat)</h4>
+                                        <p class="text-xs text-slate-500 mb-2">דגש על טכניקה, חזה מורם</p>
+                                        <div class="flex flex-wrap gap-2">
+                                             <span class="bg-pink-100 text-pink-700 text-xs font-bold px-2.5 py-1 rounded-md">3 סטים פאוז</span>
+                                             <span class="bg-pink-100 text-pink-700 text-xs font-bold px-2.5 py-1 rounded-md">3 סטים רגיל</span>
+                                             <span class="bg-slate-100 text-slate-600 text-xs font-bold px-2.5 py-1 rounded-md">6-10 חזרות</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                 <!-- Exercise Item 2: Dips -->
+                                <div class="p-5 flex items-start gap-4 hover:bg-slate-50 transition-colors">
+                                    <div class="bg-slate-100 text-slate-500 font-bold w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 mt-1 text-sm">2</div>
+                                    <div class="flex-1">
+                                        <h4 class="font-bold text-slate-800 text-lg">מקבילים (Dips)</h4>
+                                         <div class="flex flex-wrap gap-2 mt-2">
+                                             <span class="bg-pink-100 text-pink-700 text-xs font-bold px-2.5 py-1 rounded-md">5 סטים</span>
+                                             <span class="bg-slate-100 text-slate-600 text-xs font-bold px-2.5 py-1 rounded-md">6-12 חזרות</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                 <!-- Exercise Item 3: RDL -->
+                                <div class="p-5 flex items-start gap-4 hover:bg-slate-50 transition-colors">
+                                    <div class="bg-slate-100 text-slate-500 font-bold w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 mt-1 text-sm">3</div>
+                                    <div class="flex-1">
+                                        <h4 class="font-bold text-slate-800 text-lg">דדליפט רומני (RDL)</h4>
+                                         <div class="flex flex-wrap gap-2 mt-2">
+                                             <span class="bg-pink-100 text-pink-700 text-xs font-bold px-2.5 py-1 rounded-md">3 סטים</span>
+                                             <span class="bg-slate-100 text-slate-600 text-xs font-bold px-2.5 py-1 rounded-md">6-10 חזרות</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Exercise Item 4: Pull Ups -->
+                                <div class="p-5 flex items-start gap-4 hover:bg-slate-50 transition-colors">
+                                    <div class="bg-slate-100 text-slate-500 font-bold w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 mt-1 text-sm">4</div>
+                                    <div class="flex-1">
+                                        <h4 class="font-bold text-slate-800 text-lg">מתח גרביטון</h4>
+                                         <div class="flex flex-wrap gap-2 mt-2">
+                                             <span class="bg-pink-100 text-pink-700 text-xs font-bold px-2.5 py-1 rounded-md">3-5 סטים</span>
+                                             <span class="bg-slate-100 text-slate-600 text-xs font-bold px-2.5 py-1 rounded-md">5-10 חזרות</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Exercise Item 5: Dumbbell Chest Press -->
+                                <div class="p-5 flex items-start gap-4 hover:bg-slate-50 transition-colors">
+                                    <div class="bg-slate-100 text-slate-500 font-bold w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 mt-1 text-sm">5</div>
+                                    <div class="flex-1">
+                                        <h4 class="font-bold text-slate-800 text-lg">לחיצת חזה משקולות</h4>
+                                         <div class="flex flex-wrap gap-2 mt-2">
+                                             <span class="bg-pink-100 text-pink-700 text-xs font-bold px-2.5 py-1 rounded-md">3 סטים</span>
+                                             <span class="bg-slate-100 text-slate-600 text-xs font-bold px-2.5 py-1 rounded-md">6-12 חזרות</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Exercise Item 6: Lying Leg Curl -->
+                                <div class="p-5 flex items-start gap-4 hover:bg-slate-50 transition-colors">
+                                    <div class="bg-slate-100 text-slate-500 font-bold w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 mt-1 text-sm">6</div>
+                                    <div class="flex-1">
+                                        <h4 class="font-bold text-slate-800 text-lg">כפיפת ברכיים בשכיבה</h4>
+                                         <div class="flex flex-wrap gap-2 mt-2">
+                                             <span class="bg-pink-100 text-pink-700 text-xs font-bold px-2.5 py-1 rounded-md">3 סטים</span>
+                                             <span class="bg-slate-100 text-slate-600 text-xs font-bold px-2.5 py-1 rounded-md">6-12 חזרות</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Exercise Item 7: Leg Extension -->
+                                <div class="p-5 flex items-start gap-4 hover:bg-slate-50 transition-colors">
+                                    <div class="bg-slate-100 text-slate-500 font-bold w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 mt-1 text-sm">7</div>
+                                    <div class="flex-1">
+                                        <h4 class="font-bold text-slate-800 text-lg">פשיטת ברכיים</h4>
+                                         <div class="flex flex-wrap gap-2 mt-2">
+                                             <span class="bg-pink-100 text-pink-700 text-xs font-bold px-2.5 py-1 rounded-md">3 סטים</span>
+                                             <span class="bg-slate-100 text-slate-600 text-xs font-bold px-2.5 py-1 rounded-md">6-12 חזרות</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Nutrition Pane -->
+                <div id="nutritionContent" class="hidden">
+                    <div class="flex flex-col items-center justify-center min-h-[400px] text-center p-6">
+                        <div class="bg-green-50 p-6 rounded-full inline-block mb-4">
+                            <i data-lucide="utensils-crossed" class="w-10 h-10 text-green-400"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-slate-800 mb-2">תפריט התזונה יעודכן בקרוב</h3>
+                        <p class="text-slate-500 max-w-xs mx-auto">התפריט והכלים התזונתיים יעודכנו לאחר השלמת שלב ההיכרות והמדידות.</p>
+                    </div>
+                </div>
+
+            </div>
+        </main>
+        
+        <!-- Toast Element -->
+        <div id="toast">
+            <div class="flex items-center justify-center gap-2">
+                <i data-lucide="check-circle" class="w-5 h-5 text-green-400"></i>
+                <span>ההודעה הועתקה בהצלחה!</span>
+            </div>
+        </div>
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            lucide.createIcons();
+            
+            // Tab Switching Logic
+            const tabs = ['progress', 'homework', 'training', 'nutrition'];
+            
+            function switchTab(activeId) {
+                // Hide all content, deactivate all tabs
+                tabs.forEach(id => {
+                    document.getElementById(id + 'Content').classList.add('hidden');
+                    const btn = document.getElementById(id + 'Tab');
+                    btn.classList.remove('tab-active', 'text-slate-900');
+                    btn.classList.add('text-slate-500');
+                });
+                
+                // Show active content, activate tab
+                document.getElementById(activeId + 'Content').classList.remove('hidden');
+                const activeBtn = document.getElementById(activeId + 'Tab');
+                activeBtn.classList.add('tab-active', 'text-slate-900');
+                activeBtn.classList.remove('text-slate-500');
+                
+                // Scroll selected tab into view on mobile
+                activeBtn.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+            }
+
+            tabs.forEach(id => {
+                document.getElementById(id + 'Tab').addEventListener('click', () => switchTab(id));
+            });
+
+            // --- Homework Logic & Sharing ---
+            const taskCheckboxes = document.querySelectorAll('.task-checkbox');
+            const progressBar = document.getElementById('progressBar');
+            const progressText = document.getElementById('progressText');
+            const completionMessage = document.getElementById('completionMessage');
+            const shareBtn = document.getElementById('shareBtn');
+            const toast = document.getElementById('toast');
+            
+            function updateHomeworkProgress() {
+                const totalTasks = taskCheckboxes.length;
+                const completedTasks = Array.from(taskCheckboxes).filter(cb => cb.checked).length;
+                const percentage = (completedTasks / totalTasks) * 100;
+
+                progressBar.style.width = `${percentage}%`;
+                progressText.textContent = `${completedTasks}/${totalTasks}`;
+
+                if (completedTasks === totalTasks) {
+                    completionMessage.classList.remove('hidden');
+                    // Add Confetti Effect
+                    confetti({
+                        particleCount: 150,
+                        spread: 70,
+                        origin: { y: 0.7 },
+                        disableForReducedMotion: true
+                    });
+                } else {
+                    completionMessage.classList.add('hidden');
+                }
+            }
+
+            taskCheckboxes.forEach(checkbox => {
+                checkbox.addEventListener('change', updateHomeworkProgress);
+            });
+
+            // Show toast function
+            function showToast() {
+                toast.className = "show";
+                setTimeout(function(){ toast.className = toast.className.replace("show", ""); }, 3000);
+            }
+
+            const updateMessage = "עדכון מטורף מאימון 16! 🔥 סקוואט 47.5 ל-3, בנץ' פרס 25 ל-3, ומתח גומיות (אדומה+כתומה) 10 חזרות רחב! ממשיכה לשבור שיאים! 🚀";
+
+            // Share API (Mobile Native Share)
+            shareBtn.addEventListener('click', async () => {
+                if (navigator.share) {
+                    try {
+                        await navigator.share({
+                            title: 'עדכון אימון',
+                            text: updateMessage,
+                        });
+                    } catch (err) {
+                        console.log('Error sharing:', err);
+                    }
+                } else {
+                    // Fallback for desktop: Open WhatsApp Web
+                    window.open(`https://wa.me/?text=${encodeURIComponent(updateMessage)}`, '_blank');
+                }
+            });
+            
+            // --- Chart Logic ---
+            function createProgressChart() {
+                const ctx = document.getElementById('coreProgressChart');
+                if (!ctx) return;
+                
+                // Show canvas now that we have data
+                ctx.classList.remove('hidden');
+
+                const gradientPink = ctx.getContext('2d').createLinearGradient(0, 0, 0, 400);
+                gradientPink.addColorStop(0, 'rgba(219, 39, 119, 0.5)');
+                gradientPink.addColorStop(1, 'rgba(219, 39, 119, 0.0)');
+
+                const coreProgressData = {
+                    labels: ['אימון 2', 'אימון 3', 'אימון 4', 'אימון 5', 'אימון 6', 'אימון 7', 'אימון 8', 'אימון 9', 'אימון 10', 'אימון 11', 'אימון 12', 'אימון 13', 'אימון 14', 'אימון 15', 'אימון 16'],
+                    datasets: [
+                        {
+                            label: 'סקוואט',
+                            data: [20, 25, 27.5, 30, 32.5, 35, 37.5, 40, 42.5, 45, 45, 45, 45, 45, 47.5], 
+                            borderColor: '#db2777', 
+                            backgroundColor: gradientPink,
+                            tension: 0.4,
+                            fill: true,
+                            pointRadius: 6,
+                            pointHitRadius: 20
+                        },
+                        {
+                            label: 'רומני דדליפט',
+                            data: [27.5, 30, 35, 35, 35, 35, 37.5, 40, 40, 42.5, 42.5, 40, 42.5, 42.5, 42.5],
+                            borderColor: '#16a34a', 
+                            tension: 0.4,
+                            pointRadius: 6,
+                            pointHitRadius: 20
+                        }
+                    ]
+                };
+
+                new Chart(ctx, {
+                    type: 'line',
+                    data: coreProgressData,
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: {
+                                display: true,
+                                position: 'bottom',
+                                labels: { font: { family: 'Assistant' }, usePointStyle: true, boxWidth: 6 }
+                            },
+                            tooltip: {
+                                mode: 'index',
+                                intersect: false,
+                                backgroundColor: 'rgba(255, 255, 255, 0.9)',
+                                titleColor: '#1e293b',
+                                bodyColor: '#475569',
+                                borderColor: '#e2e8f0',
+                                borderWidth: 1,
+                                titleFont: { family: 'Assistant', weight: 'bold' },
+                                bodyFont: { family: 'Assistant' },
+                                padding: 10,
+                                cornerRadius: 10
+                            }
+                        },
+                        scales: {
+                            x: {
+                                grid: { display: false },
+                                ticks: { font: { family: 'Assistant' } }
+                            },
+                            y: {
+                                display: true,
+                                min: 0,
+                                ticks: { font: { family: 'Assistant' } }
+                            }
+                        }
+                    }
+                });
+            }
+            createProgressChart();
+        });
+    </script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+```
