@@ -142,7 +142,7 @@
                     <div class="grid grid-cols-2 md:grid-cols-3 gap-3 sm:gap-6 mb-8">
                         <div class="bg-white rounded-2xl shadow-sm border border-slate-100 p-4 flex flex-col items-center justify-center text-center">
                             <h3 class="text-xs font-bold text-slate-400 uppercase tracking-wide mb-1">אימונים</h3>
-                            <p class="text-lg font-bold text-slate-800">17 בוצעו</p>
+                            <p class="text-lg font-bold text-slate-800">18 בוצעו</p>
                         </div>
                         <div class="bg-white rounded-2xl shadow-sm border border-slate-100 p-4 flex flex-col items-center justify-center text-center">
                             <h3 class="text-xs font-bold text-slate-400 uppercase tracking-wide mb-1">סטטוס</h3>
@@ -150,7 +150,7 @@
                         </div>
                         <div class="col-span-2 md:col-span-1 bg-white rounded-2xl shadow-sm border border-slate-100 p-4 flex flex-col items-center justify-center text-center">
                             <h3 class="text-xs font-bold text-slate-400 uppercase tracking-wide mb-1">הישג אחרון</h3>
-                            <p class="text-lg font-bold text-pink-600">רומני 45kg ל-5! 🔥</p>
+                            <p class="text-lg font-bold text-pink-600">היפטראסט 20kg ל-5! 🔥</p>
                         </div>
                     </div>
 
@@ -160,12 +160,21 @@
                         </div>
                         <div>
                             <p class="font-bold text-slate-900 text-sm mb-1">עדכון לוהט מהשטח! 🏆</p>
-                            <p class="text-sm text-slate-600 leading-relaxed">אימון 17 מאחורינו ונעמה שוברת שיאים בשרשרת! רומני קפץ ל-45 ק"ג ל-5 חזרות, שיפור משמעותי בחזרות בהיפטראסט ומקבילים, ושיאים חדשים במכשירים השונים כולל פולי עליון וחתירה. אלופה אמיתית! 🚀</p>
+                            <p class="text-sm text-slate-600 leading-relaxed">אימון 18 נכנס לספרים עם שורת שיאים מרשימה! היפטראסט עלה ל-20 ק"ג (כל צד) ל-5 חזרות, מקבילים השתפר ל-7 חזרות, מתח צר ל-7, ובולגרי וכיסא רומי גם כן בשיאים חדשים. פשוט מדהים! 🚀</p>
                         </div>
                     </div>
 
                     <div class="mb-8">
                         <h2 class="text-xl font-bold mb-4 text-slate-800 px-1">מעקב התקדמות</h2>
+                        
+                        <!-- Chart Tabs -->
+                        <div class="flex overflow-x-auto gap-2 mb-4 pb-2 px-1 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none] smooth-scroll">
+                            <button class="chart-tab px-5 py-2 rounded-full text-sm font-bold bg-pink-100 text-pink-700 whitespace-nowrap transition-all shadow-sm" data-exercise="squat">סקוואט</button>
+                            <button class="chart-tab px-5 py-2 rounded-full text-sm font-bold bg-white text-slate-600 border border-slate-200 hover:bg-slate-50 whitespace-nowrap transition-all" data-exercise="rdl">רומני דדליפט</button>
+                            <button class="chart-tab px-5 py-2 rounded-full text-sm font-bold bg-white text-slate-600 border border-slate-200 hover:bg-slate-50 whitespace-nowrap transition-all" data-exercise="hipThrust">היפטראסט</button>
+                            <button class="chart-tab px-5 py-2 rounded-full text-sm font-bold bg-white text-slate-600 border border-slate-200 hover:bg-slate-50 whitespace-nowrap transition-all" data-exercise="bench">בנץ' פרס</button>
+                        </div>
+
                         <div class="bg-white p-4 rounded-3xl shadow-sm border border-slate-100">
                             <div class="relative h-64 w-full">
                                 <canvas id="coreProgressChart"></canvas>
@@ -180,82 +189,113 @@
                         </div>
                          <div class="overflow-x-auto smooth-scroll">
                              <table class="min-w-full divide-y divide-slate-100">
+                                <thead class="bg-slate-50 border-b border-slate-100">
+                                    <tr>
+                                        <th scope="col" class="px-4 py-3 text-right text-xs font-bold text-slate-500 tracking-wider">תרגיל</th>
+                                        <th scope="col" class="px-4 py-3 text-center text-xs font-bold text-slate-400 tracking-wider">התחלה</th>
+                                        <th scope="col" class="px-4 py-3 text-left text-xs font-bold text-slate-500 tracking-wider">שיא נוכחי</th>
+                                    </tr>
+                                </thead>
                                 <tbody class="bg-white divide-y divide-slate-50">
                                     <tr class="active:bg-slate-50 transition-colors">
-                                        <td class="px-6 py-4 text-sm font-bold text-slate-800">סקוואט (Squat)</td>
-                                        <td class="px-6 py-4 text-sm font-medium text-right text-green-600" dir="ltr">47.5kg x 3 👑</td>
+                                        <td class="px-4 py-3 text-sm font-bold text-slate-800">סקוואט (Squat)</td>
+                                        <td class="px-4 py-3 text-sm text-slate-400 text-center font-medium" dir="ltr">20kg</td>
+                                        <td class="px-4 py-3 text-sm font-medium text-left text-green-600" dir="ltr">47.5kg x 3 👑</td>
+                                    </tr>
+                                    <tr class="active:bg-slate-50 transition-colors">
+                                        <td class="px-4 py-3 text-sm font-bold text-slate-800">רומני דדליפט (RDL)</td>
+                                        <td class="px-4 py-3 text-sm text-slate-400 text-center font-medium" dir="ltr">27.5kg</td>
+                                        <td class="px-4 py-3 text-sm font-medium text-left text-green-600" dir="ltr">45kg x 5 👑</td>
+                                    </tr>
+                                    <tr class="active:bg-slate-50 transition-colors">
+                                        <td class="px-4 py-3 text-sm font-bold text-slate-800">בנץ' פרס (Bench Press)</td>
+                                        <td class="px-4 py-3 text-sm text-slate-400 text-center font-medium" dir="ltr">15kg</td>
+                                        <td class="px-4 py-3 text-sm font-medium text-left text-green-600" dir="ltr">25kg x 3 👑</td>
+                                    </tr>
+                                    <tr class="active:bg-slate-50 transition-colors">
+                                        <td class="px-4 py-3 text-sm font-bold text-slate-800">לחיצת חזה בסמית'</td>
+                                        <td class="px-4 py-3 text-sm text-slate-400 text-center font-medium" dir="ltr">2.5kg</td>
+                                        <td class="px-4 py-3 text-sm font-medium text-left text-green-600" dir="ltr">7.5kg (כל צד) x 8 👑</td>
+                                    </tr>
+                                    <tr class="active:bg-slate-50 transition-colors">
+                                        <td class="px-4 py-3 text-sm font-bold text-slate-800">לחיצת כתפיים</td>
+                                        <td class="px-4 py-3 text-sm text-slate-400 text-center font-medium" dir="ltr">10kg</td>
+                                        <td class="px-4 py-3 text-sm font-medium text-left text-green-600" dir="ltr">20kg x 5 👑</td>
+                                    </tr>
+                                    <tr class="active:bg-slate-50 transition-colors">
+                                        <td class="px-4 py-3 text-sm font-bold text-slate-800">פולי עליון במכונה</td>
+                                        <td class="px-4 py-3 text-sm text-slate-400 text-center font-medium" dir="ltr">10kg</td>
+                                        <td class="px-4 py-3 text-sm font-medium text-left text-green-600" dir="ltr">20kg (כל צד) x 7 👑</td>
+                                    </tr>
+                                    <tr class="active:bg-slate-50 transition-colors">
+                                        <td class="px-4 py-3 text-sm font-bold text-slate-800">פולי עליון (אחיזה צרה)</td>
+                                        <td class="px-4 py-3 text-sm text-slate-400 text-center font-medium" dir="ltr">20kg</td>
+                                        <td class="px-4 py-3 text-sm font-medium text-left text-green-600" dir="ltr">35kg x 5 👑</td>
                                     </tr>
                                     <tr class="active:bg-slate-50 transition-colors bg-pink-50/50">
-                                        <td class="px-6 py-4 text-sm font-bold text-slate-800">רומני דדליפט (RDL)</td>
-                                        <td class="px-6 py-4 text-sm font-bold text-right text-pink-600" dir="ltr">45kg x 5 🆕</td>
+                                        <td class="px-4 py-3 text-sm font-bold text-slate-800">סקוואט בולגרי (יד אחת)</td>
+                                        <td class="px-4 py-3 text-sm text-slate-400 text-center font-medium" dir="ltr">משקל גוף</td>
+                                        <td class="px-4 py-3 text-sm font-bold text-left text-pink-600" dir="ltr">12.5kg x 8 🆕</td>
                                     </tr>
                                     <tr class="active:bg-slate-50 transition-colors">
-                                        <td class="px-6 py-4 text-sm font-bold text-slate-800">בנץ' פרס (Bench Press)</td>
-                                        <td class="px-6 py-4 text-sm font-medium text-right text-green-600" dir="ltr">25kg x 3 👑</td>
+                                        <td class="px-4 py-3 text-sm font-bold text-slate-800">חתירה צרה</td>
+                                        <td class="px-4 py-3 text-sm text-slate-400 text-center font-medium" dir="ltr">7.5kg</td>
+                                        <td class="px-4 py-3 text-sm font-medium text-left text-green-600" dir="ltr">17.5kg (כל צד) x 4 👑</td>
+                                    </tr>
+                                    <tr class="active:bg-slate-50 transition-colors">
+                                        <td class="px-4 py-3 text-sm font-bold text-slate-800">חתירה מוט</td>
+                                        <td class="px-4 py-3 text-sm text-slate-400 text-center font-medium" dir="ltr">15kg</td>
+                                        <td class="px-4 py-3 text-sm font-medium text-left text-green-600" dir="ltr">22.5kg x 6 👑</td>
+                                    </tr>
+                                    <tr class="active:bg-slate-50 transition-colors">
+                                        <td class="px-4 py-3 text-sm font-bold text-slate-800">טי-בר (T-Bar Row)</td>
+                                        <td class="px-4 py-3 text-sm text-slate-400 text-center font-medium" dir="ltr">5kg</td>
+                                        <td class="px-4 py-3 text-sm font-medium text-left text-green-600" dir="ltr">10kg x 6 👑</td>
                                     </tr>
                                     <tr class="active:bg-slate-50 transition-colors bg-pink-50/50">
-                                        <td class="px-6 py-4 text-sm font-bold text-slate-800">לחיצת חזה בסמית'</td>
-                                        <td class="px-6 py-4 text-sm font-bold text-right text-pink-600" dir="ltr">7.5kg (כל צד) x 8 🆕</td>
-                                    </tr>
-                                    <tr class="active:bg-slate-50 transition-colors">
-                                        <td class="px-6 py-4 text-sm font-bold text-slate-800">לחיצת כתפיים</td>
-                                        <td class="px-6 py-4 text-sm font-medium text-right text-green-600" dir="ltr">20kg x 5 👑</td>
+                                        <td class="px-4 py-3 text-sm font-bold text-slate-800">מתח (גומיה)</td>
+                                        <td class="px-4 py-3 text-sm text-slate-400 text-center font-medium" dir="ltr">גומיה ירוקה</td>
+                                        <td class="px-4 py-3 text-sm font-bold text-left text-pink-600" dir="ltr">צר - 7 חזרות (אדום+כתום) 🆕</td>
                                     </tr>
                                     <tr class="active:bg-slate-50 transition-colors bg-pink-50/50">
-                                        <td class="px-6 py-4 text-sm font-bold text-slate-800">פולי עליון במכונה</td>
-                                        <td class="px-6 py-4 text-sm font-bold text-right text-pink-600" dir="ltr">20kg (כל צד) x 7 🆕</td>
+                                        <td class="px-4 py-3 text-sm font-bold text-slate-800">היפטראסט (Hip Thrust)</td>
+                                        <td class="px-4 py-3 text-sm text-slate-400 text-center font-medium" dir="ltr">10kg</td>
+                                        <td class="px-4 py-3 text-sm font-bold text-left text-pink-600" dir="ltr">20kg (כל צד) x 5 🆕</td>
                                     </tr>
                                     <tr class="active:bg-slate-50 transition-colors">
-                                        <td class="px-6 py-4 text-sm font-bold text-slate-800">פולי עליון (אחיזה צרה)</td>
-                                        <td class="px-6 py-4 text-sm font-medium text-right text-green-600" dir="ltr">35kg x 5 👑</td>
+                                        <td class="px-4 py-3 text-sm font-bold text-slate-800">פשיטת ברכיים</td>
+                                        <td class="px-4 py-3 text-sm text-slate-400 text-center font-medium" dir="ltr">15kg</td>
+                                        <td class="px-4 py-3 text-sm font-medium text-left text-green-600" dir="ltr">32.5kg x 8 👑</td>
+                                    </tr>
+                                    <tr class="active:bg-slate-50 transition-colors">
+                                        <td class="px-4 py-3 text-sm font-bold text-slate-800">כפיפת ברכיים בשכיבה</td>
+                                        <td class="px-4 py-3 text-sm text-slate-400 text-center font-medium" dir="ltr">10kg</td>
+                                        <td class="px-4 py-3 text-sm font-medium text-left text-green-600" dir="ltr">4 x 6 👑</td>
+                                    </tr>
+                                    <tr class="active:bg-slate-50 transition-colors">
+                                        <td class="px-4 py-3 text-sm font-bold text-slate-800">לחיצת רגליים (רגל אחת)</td>
+                                        <td class="px-4 py-3 text-sm text-slate-400 text-center font-medium" dir="ltr">15kg</td>
+                                        <td class="px-4 py-3 text-sm font-medium text-left text-green-600" dir="ltr">8 חזרות 👑</td>
                                     </tr>
                                     <tr class="active:bg-slate-50 transition-colors bg-pink-50/50">
-                                        <td class="px-6 py-4 text-sm font-bold text-slate-800">סקוואט בולגרי (יד אחת)</td>
-                                        <td class="px-6 py-4 text-sm font-bold text-right text-pink-600" dir="ltr">12.5kg x 7 🆕</td>
+                                        <td class="px-4 py-3 text-sm font-bold text-slate-800">מקבילים (Dips)</td>
+                                        <td class="px-4 py-3 text-sm text-slate-400 text-center font-medium" dir="ltr">-40kg</td>
+                                        <td class="px-4 py-3 text-sm font-bold text-left text-pink-600" dir="ltr">-29kg x 7 🆕</td>
                                     </tr>
                                     <tr class="active:bg-slate-50 transition-colors bg-pink-50/50">
-                                        <td class="px-6 py-4 text-sm font-bold text-slate-800">חתירה צרה</td>
-                                        <td class="px-6 py-4 text-sm font-bold text-right text-pink-600" dir="ltr">17.5kg (כל צד) x 4 🆕</td>
+                                        <td class="px-4 py-3 text-sm font-bold text-slate-800">כיסא רומי (פשיטת גו)</td>
+                                        <td class="px-4 py-3 text-sm text-slate-400 text-center font-medium" dir="ltr">משקל גוף</td>
+                                        <td class="px-4 py-3 text-sm font-bold text-left text-pink-600" dir="ltr">10kg x 8 🆕</td>
                                     </tr>
                                     <tr class="active:bg-slate-50 transition-colors">
-                                        <td class="px-6 py-4 text-sm font-bold text-slate-800">חתירה מוט</td>
-                                        <td class="px-6 py-4 text-sm font-medium text-right text-green-600" dir="ltr">22.5kg x 6 👑</td>
+                                        <td class="px-4 py-3 text-sm font-bold text-slate-800">פייספול בישיבה</td>
+                                        <td class="px-4 py-3 text-sm text-slate-400 text-center font-medium" dir="ltr">10kg</td>
+                                        <td class="px-4 py-3 text-sm font-medium text-left text-green-600" dir="ltr">17.5kg x 8 👑</td>
                                     </tr>
                                     <tr class="active:bg-slate-50 transition-colors">
-                                        <td class="px-6 py-4 text-sm font-bold text-slate-800">טי-בר (T-Bar Row)</td>
-                                        <td class="px-6 py-4 text-sm font-medium text-right text-green-600" dir="ltr">10kg x 6 👑</td>
-                                    </tr>
-                                    <tr class="active:bg-slate-50 transition-colors">
-                                        <td class="px-6 py-4 text-sm font-bold text-slate-800">מתח (גומיה אדומה+כתומה)</td>
-                                        <td class="px-6 py-4 text-sm font-medium text-right text-green-600" dir="ltr">רחב - 10 חזרות 👑</td>
-                                    </tr>
-                                    <tr class="active:bg-slate-50 transition-colors bg-pink-50/50">
-                                        <td class="px-6 py-4 text-sm font-bold text-slate-800">היפטראסט (Hip Thrust)</td>
-                                        <td class="px-6 py-4 text-sm font-bold text-right text-pink-600" dir="ltr">17.5kg (כל צד) x 8 🆕</td>
-                                    </tr>
-                                    <tr class="active:bg-slate-50 transition-colors">
-                                        <td class="px-6 py-4 text-sm font-bold text-slate-800">פשיטת ברכיים</td>
-                                        <td class="px-6 py-4 text-sm font-medium text-right text-green-600" dir="ltr">32.5kg x 8 👑</td>
-                                    </tr>
-                                    <tr class="active:bg-slate-50 transition-colors">
-                                        <td class="px-6 py-4 text-sm font-bold text-slate-800">כפיפת ברכיים בשכיבה</td>
-                                        <td class="px-6 py-4 text-sm font-medium text-right text-green-600" dir="ltr">4 x 6 👑</td>
-                                    </tr>
-                                    <tr class="active:bg-slate-50 transition-colors">
-                                        <td class="px-6 py-4 text-sm font-bold text-slate-800">לחיצת רגליים (רגל אחת)</td>
-                                        <td class="px-6 py-4 text-sm font-medium text-right text-green-600" dir="ltr">8 חזרות 👑</td>
-                                    </tr>
-                                    <tr class="active:bg-slate-50 transition-colors bg-pink-50/50">
-                                        <td class="px-6 py-4 text-sm font-bold text-slate-800">מקבילים (Dips)</td>
-                                        <td class="px-6 py-4 text-sm font-bold text-right text-pink-600" dir="ltr">-29kg x 6 🆕</td>
-                                    </tr>
-                                    <tr class="active:bg-slate-50 transition-colors">
-                                        <td class="px-6 py-4 text-sm font-bold text-slate-800">פייספול בישיבה</td>
-                                        <td class="px-6 py-4 text-sm font-medium text-right text-green-600" dir="ltr">17.5kg x 8 👑</td>
-                                    </tr>
-                                    <tr class="active:bg-slate-50 transition-colors">
-                                        <td class="px-6 py-4 text-sm font-bold text-slate-800">פטישים חבל</td>
-                                        <td class="px-6 py-4 text-sm font-medium text-right text-green-600" dir="ltr">7.5kg x 8 👑</td>
+                                        <td class="px-4 py-3 text-sm font-bold text-slate-800">פטישים חבל</td>
+                                        <td class="px-4 py-3 text-sm text-slate-400 text-center font-medium" dir="ltr">2.5kg</td>
+                                        <td class="px-4 py-3 text-sm font-medium text-left text-green-600" dir="ltr">7.5kg x 8 👑</td>
                                     </tr>
                                 </tbody>
                              </table>
@@ -424,25 +464,36 @@
                                         </div>
                                     </div>
                                 </div>
-                                <!-- Exercise Item 6: Lying Leg Curl -->
+                                <!-- Exercise Item 6: Machine Row with Bar -->
                                 <div class="p-5 flex items-start gap-4 hover:bg-slate-50 transition-colors">
                                     <div class="bg-slate-100 text-slate-500 font-bold w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 mt-1 text-sm">6</div>
                                     <div class="flex-1">
-                                        <h4 class="font-bold text-slate-800 text-lg">כפיפת ברכיים בשכיבה</h4>
+                                        <h4 class="font-bold text-slate-800 text-lg">חתירה במכונה עם מוט</h4>
                                          <div class="flex flex-wrap gap-2 mt-2">
                                              <span class="bg-pink-100 text-pink-700 text-xs font-bold px-2.5 py-1 rounded-md">3 סטים</span>
                                              <span class="bg-slate-100 text-slate-600 text-xs font-bold px-2.5 py-1 rounded-md">6-12 חזרות</span>
                                         </div>
                                     </div>
                                 </div>
-                                <!-- Exercise Item 7: Leg Extension -->
+                                <!-- Exercise Item 7: Bicep Curls -->
                                 <div class="p-5 flex items-start gap-4 hover:bg-slate-50 transition-colors">
                                     <div class="bg-slate-100 text-slate-500 font-bold w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 mt-1 text-sm">7</div>
                                     <div class="flex-1">
-                                        <h4 class="font-bold text-slate-800 text-lg">פשיטת ברכיים</h4>
+                                        <h4 class="font-bold text-slate-800 text-lg">כפיפות מרפקים</h4>
                                          <div class="flex flex-wrap gap-2 mt-2">
                                              <span class="bg-pink-100 text-pink-700 text-xs font-bold px-2.5 py-1 rounded-md">3 סטים</span>
-                                             <span class="bg-slate-100 text-slate-600 text-xs font-bold px-2.5 py-1 rounded-md">6-12 חזרות</span>
+                                             <span class="bg-slate-100 text-slate-600 text-xs font-bold px-2.5 py-1 rounded-md">8-12 חזרות</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Exercise Item 8: Shoulder Press -->
+                                <div class="p-5 flex items-start gap-4 hover:bg-slate-50 transition-colors border-t border-slate-100">
+                                    <div class="bg-slate-100 text-slate-500 font-bold w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 mt-1 text-sm">8</div>
+                                    <div class="flex-1">
+                                        <h4 class="font-bold text-slate-800 text-lg">לחיצת כתפיים</h4>
+                                         <div class="flex flex-wrap gap-2 mt-2">
+                                             <span class="bg-pink-100 text-pink-700 text-xs font-bold px-2.5 py-1 rounded-md">3-5 סטים</span>
+                                             <span class="bg-slate-100 text-slate-600 text-xs font-bold px-2.5 py-1 rounded-md">6-10 חזרות</span>
                                         </div>
                                     </div>
                                 </div>
@@ -543,7 +594,7 @@
                 setTimeout(function(){ toast.className = toast.className.replace("show", ""); }, 3000);
             }
 
-            const updateMessage = "עדכון מטורף מאימון 17! 🔥 רומני 45 ל-5, היפטראסט 17.5 כל צד ל-8, מקבילים -29 ל-6, ועוד מלא שיאים חדשים במכשירים! נעמה לא עוצרת! 🚀";
+            const updateMessage = "עדכון מטורף מאימון 18! 🔥 היפטראסט 20 כל צד ל-5, מתח צר ל-7, מקבילים -29 ל-7, בולגרי 12.5 ל-8, וכיסא רומי עם 10 ק\"ג! אלופה! 🚀";
 
             // Share API (Mobile Native Share)
             shareBtn.addEventListener('click', async () => {
@@ -563,93 +614,110 @@
             });
             
             // --- Chart Logic ---
-            function createProgressChart() {
+            let myProgressChart = null;
+            
+            const chartLabels = ['אימון 3', 'אימון 4', 'אימון 5', 'אימון 6', 'אימון 7', 'אימון 8', 'אימון 9', 'אימון 10', 'אימון 11', 'אימון 12', 'אימון 13', 'אימון 14', 'אימון 15', 'אימון 16', 'אימון 17', 'אימון 18'];
+            
+            // Mocking historical data for the new exercises to demonstrate the tabs. 
+            // You can replace these arrays with the exact historical weights.
+            const exerciseData = {
+                squat: { name: 'סקוואט', data: [25, 27.5, 30, 32.5, 35, 37.5, 40, 42.5, 45, 45, 45, 45, 45, 47.5, 47.5, 47.5] },
+                rdl: { name: 'רומני דדליפט', data: [30, 35, 35, 35, 35, 37.5, 40, 40, 42.5, 42.5, 40, 42.5, 42.5, 42.5, 45, 45] },
+                hipThrust: { name: 'היפטראסט', data: [10, 10, 10, 12.5, 12.5, 12.5, 15, 15, 15, 15, 17.5, 17.5, 17.5, 17.5, 17.5, 20] },
+                bench: { name: "בנץ' פרס", data: [15, 15, 17.5, 17.5, 20, 20, 20, 22.5, 22.5, 22.5, 25, 25, 25, 25, 25, 25] }
+            };
+
+            function initChart() {
                 const ctx = document.getElementById('coreProgressChart');
                 if (!ctx) return;
-                
-                // Show canvas now that we have data
                 ctx.classList.remove('hidden');
 
-                const gradientPink = ctx.getContext('2d').createLinearGradient(0, 0, 0, 400);
+                // Initialize with Squat
+                renderChart('squat');
+
+                // Add event listeners to tabs
+                document.querySelectorAll('.chart-tab').forEach(tab => {
+                    tab.addEventListener('click', (e) => {
+                        // Update active class UI
+                        document.querySelectorAll('.chart-tab').forEach(t => {
+                            t.classList.remove('bg-pink-100', 'text-pink-700', 'shadow-sm');
+                            t.classList.add('bg-white', 'text-slate-600', 'border', 'border-slate-200');
+                        });
+                        e.target.classList.remove('bg-white', 'text-slate-600', 'border', 'border-slate-200');
+                        e.target.classList.add('bg-pink-100', 'text-pink-700', 'shadow-sm');
+                        
+                        // Render the corresponding chart
+                        renderChart(e.target.dataset.exercise);
+                    });
+                });
+            }
+
+            function renderChart(exerciseKey) {
+                const ctx = document.getElementById('coreProgressChart').getContext('2d');
+                const gradientPink = ctx.createLinearGradient(0, 0, 0, 400);
                 gradientPink.addColorStop(0, 'rgba(219, 39, 119, 0.5)');
                 gradientPink.addColorStop(1, 'rgba(219, 39, 119, 0.0)');
 
-                const coreProgressData = {
-                    labels: ['אימון 2', 'אימון 3', 'אימון 4', 'אימון 5', 'אימון 6', 'אימון 7', 'אימון 8', 'אימון 9', 'אימון 10', 'אימון 11', 'אימון 12', 'אימון 13', 'אימון 14', 'אימון 15', 'אימון 16', 'אימון 17'],
-                    datasets: [
-                        {
-                            label: 'סקוואט',
-                            data: [20, 25, 27.5, 30, 32.5, 35, 37.5, 40, 42.5, 45, 45, 45, 45, 45, 47.5, 47.5], 
-                            borderColor: '#db2777', 
-                            backgroundColor: gradientPink,
-                            tension: 0.4,
-                            fill: true,
-                            pointRadius: 6,
-                            pointHitRadius: 20
-                        },
-                        {
-                            label: 'רומני דדליפט',
-                            data: [27.5, 30, 35, 35, 35, 35, 37.5, 40, 40, 42.5, 42.5, 40, 42.5, 42.5, 42.5, 45],
-                            borderColor: '#16a34a', 
-                            tension: 0.4,
-                            pointRadius: 6,
-                            pointHitRadius: 20
-                        }
-                    ]
-                };
+                const data = exerciseData[exerciseKey];
 
-                new Chart(ctx, {
-                    type: 'line',
-                    data: coreProgressData,
-                    options: {
-                        responsive: true,
-                        maintainAspectRatio: false,
-                        plugins: {
-                            legend: {
-                                display: true,
-                                position: 'bottom',
-                                labels: { font: { family: 'Assistant' }, usePointStyle: true, boxWidth: 6 }
-                            },
-                            tooltip: {
-                                mode: 'index',
-                                intersect: false,
-                                backgroundColor: 'rgba(255, 255, 255, 0.9)',
-                                titleColor: '#1e293b',
-                                bodyColor: '#475569',
-                                borderColor: '#e2e8f0',
-                                borderWidth: 1,
-                                titleFont: { family: 'Assistant', weight: 'bold' },
-                                bodyFont: { family: 'Assistant' },
-                                padding: 10,
-                                cornerRadius: 10
-                            }
+                if (myProgressChart) {
+                    myProgressChart.data.datasets[0].label = data.name;
+                    myProgressChart.data.datasets[0].data = data.data;
+                    myProgressChart.update();
+                } else {
+                    myProgressChart = new Chart(ctx, {
+                        type: 'line',
+                        data: {
+                            labels: chartLabels,
+                            datasets: [{
+                                label: data.name,
+                                data: data.data,
+                                borderColor: '#db2777',
+                                backgroundColor: gradientPink,
+                                tension: 0.4,
+                                fill: true,
+                                pointRadius: 6,
+                                pointHitRadius: 20
+                            }]
                         },
-                        scales: {
-                            x: {
-                                grid: { display: false },
-                                ticks: { font: { family: 'Assistant' } }
+                        options: {
+                            responsive: true,
+                            maintainAspectRatio: false,
+                            plugins: {
+                                legend: { display: false }, // Hidden since the tab already explains what we are looking at
+                                tooltip: {
+                                    mode: 'index',
+                                    intersect: false,
+                                    backgroundColor: 'rgba(255, 255, 255, 0.9)',
+                                    titleColor: '#1e293b',
+                                    bodyColor: '#475569',
+                                    borderColor: '#e2e8f0',
+                                    borderWidth: 1,
+                                    titleFont: { family: 'Assistant', weight: 'bold' },
+                                    bodyFont: { family: 'Assistant' },
+                                    padding: 10,
+                                    cornerRadius: 10,
+                                    callbacks: {
+                                        label: function(context) {
+                                            return context.dataset.label + ': ' + context.parsed.y + ' kg';
+                                        }
+                                    }
+                                }
                             },
-                            y: {
-                                display: true,
-                                min: 0,
-                                ticks: { font: { family: 'Assistant' } }
+                            scales: {
+                                x: { grid: { display: false }, ticks: { font: { family: 'Assistant' } } },
+                                y: { display: true, min: 0, ticks: { font: { family: 'Assistant' } } }
                             }
                         }
-                    }
-                });
+                    });
+                }
             }
-            createProgressChart();
+
+            initChart();
         });
     </script>
 </body>
 </html>
-
-
-
-
-
-
-
 
 
 
