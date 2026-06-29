@@ -150,7 +150,7 @@
                         </div>
                         <div class="col-span-2 md:col-span-1 bg-white rounded-2xl shadow-sm border border-slate-100 p-4 flex flex-col items-center justify-center text-center">
                             <h3 class="text-xs font-bold text-slate-400 uppercase tracking-wide mb-1">הישג אחרון</h3>
-                            <p class="text-lg font-bold text-pink-600">היפטראסט 25 ק"ג (כל צד)! 🔥</p>
+                            <p class="text-lg font-bold text-pink-600">היפטראסט 25 ק"ג ל-8! 🔥</p>
                         </div>
                     </div>
 
@@ -160,19 +160,30 @@
                         </div>
                         <div>
                             <p class="font-bold text-slate-900 text-sm mb-1">עדכון לוהט מהשטח! 🏆</p>
-                            <p class="text-sm text-slate-600 leading-relaxed">ההתקדמות לא עוצרת! שיא חדש ומטורף בהיפטראסט - 25 ק"ג לכל צד ל-6 חזרות! בנוסף למומנטום המדהים מהאימון הקודם (בנץ' פרס 27.5 ק"ג, פולי עליון ועוד). פשוט אלופה! 🚀</p>
+                            <p class="text-sm text-slate-600 leading-relaxed">איזה אימון פסיכי! שיאים חדשים נשברים בקצב מסחרר: היפטראסט 25 ק"ג (כל צד) ל-8 חזרות! פשיטות ברכיים הגיעו ל-35 ק"ג ל-6! פולי עליון במכונה 22.5 ק"ג ל-8, בולגרי 15 ק"ג ל-7, וכפיפות ברכיים קפצו ל-5 ק"ג ל-6 חזרות! ממשיכה להפציץ בכל תרגיל מחדש! 🚀</p>
                         </div>
                     </div>
 
                     <div class="mb-8">
                         <h2 class="text-xl font-bold mb-4 text-slate-800 px-1">מעקב התקדמות</h2>
                         
-                        <!-- Chart Tabs -->
-                        <div class="flex overflow-x-auto gap-2 mb-4 pb-2 px-1 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none] smooth-scroll">
-                            <button class="chart-tab px-5 py-2 rounded-full text-sm font-bold bg-pink-100 text-pink-700 whitespace-nowrap transition-all shadow-sm" data-exercise="squat">סקוואט</button>
-                            <button class="chart-tab px-5 py-2 rounded-full text-sm font-bold bg-white text-slate-600 border border-slate-200 hover:bg-slate-50 whitespace-nowrap transition-all" data-exercise="rdl">רומני דדליפט</button>
-                            <button class="chart-tab px-5 py-2 rounded-full text-sm font-bold bg-white text-slate-600 border border-slate-200 hover:bg-slate-50 whitespace-nowrap transition-all" data-exercise="hipThrust">היפטראסט</button>
-                            <button class="chart-tab px-5 py-2 rounded-full text-sm font-bold bg-white text-slate-600 border border-slate-200 hover:bg-slate-50 whitespace-nowrap transition-all" data-exercise="bench">בנץ' פרס</button>
+                        <!-- Chart Selection -->
+                        <div class="relative mb-4 px-1">
+                            <select id="exerciseChartSelect" class="block w-full appearance-none bg-white border border-slate-200 text-slate-700 py-3 px-4 pl-10 rounded-2xl font-bold leading-tight focus:outline-none focus:bg-white focus:border-pink-500 shadow-sm transition-colors cursor-pointer">
+                                <option value="squat">סקוואט (Squat)</option>
+                                <option value="rdl">רומני דדליפט (RDL)</option>
+                                <option value="hipThrust">היפטראסט</option>
+                                <option value="bench">בנץ' פרס</option>
+                                <option value="legExtension">פשיטת ברכיים</option>
+                                <option value="machinePulldown">פולי עליון במכונה</option>
+                                <option value="bulgarian">סקוואט בולגרי</option>
+                                <option value="legCurl">כפיפת ברכיים בשכיבה</option>
+                                <option value="shoulderPress">לחיצת כתפיים</option>
+                                <option value="graviton">מתח / מקבילים גרביטון</option>
+                            </select>
+                            <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center px-4 text-slate-500">
+                                <i data-lucide="chevron-down" class="w-5 h-5"></i>
+                            </div>
                         </div>
 
                         <div class="bg-white p-4 rounded-3xl shadow-sm border border-slate-100">
@@ -225,7 +236,7 @@
                                     <tr class="active:bg-slate-50 transition-colors bg-pink-50/50">
                                         <td class="px-4 py-3 text-sm font-bold text-slate-800">פולי עליון במכונה</td>
                                         <td class="px-4 py-3 text-sm text-slate-400 text-center font-medium" dir="ltr">10kg</td>
-                                        <td class="px-4 py-3 text-sm font-bold text-left text-pink-600" dir="ltr">22.5kg (כל צד) x 5 🆕</td>
+                                        <td class="px-4 py-3 text-sm font-bold text-left text-pink-600" dir="ltr">22.5kg (כל צד) x 8 🆕</td>
                                     </tr>
                                     <tr class="active:bg-slate-50 transition-colors">
                                         <td class="px-4 py-3 text-sm font-bold text-slate-800">פולי עליון (אחיזה צרה)</td>
@@ -236,6 +247,11 @@
                                         <td class="px-4 py-3 text-sm font-bold text-slate-800">סקוואט בולגרי (יד אחת)</td>
                                         <td class="px-4 py-3 text-sm text-slate-400 text-center font-medium" dir="ltr">משקל גוף</td>
                                         <td class="px-4 py-3 text-sm font-medium text-left text-green-600" dir="ltr">15kg x 7 👑</td>
+                                    </tr>
+                                    <tr class="active:bg-slate-50 transition-colors bg-pink-50/50">
+                                        <td class="px-4 py-3 text-sm font-bold text-slate-800">סקוואט בולגרי (יד אחת)</td>
+                                        <td class="px-4 py-3 text-sm text-slate-400 text-center font-medium" dir="ltr">משקל גוף</td>
+                                        <td class="px-4 py-3 text-sm font-bold text-left text-pink-600" dir="ltr">15kg x 7 🆕</td>
                                     </tr>
                                     <tr class="active:bg-slate-50 transition-colors bg-pink-50/50">
                                         <td class="px-4 py-3 text-sm font-bold text-slate-800">חתירה צרה במכונה</td>
@@ -260,17 +276,17 @@
                                     <tr class="active:bg-slate-50 transition-colors bg-pink-50/50">
                                         <td class="px-4 py-3 text-sm font-bold text-slate-800">היפטראסט (Hip Thrust)</td>
                                         <td class="px-4 py-3 text-sm text-slate-400 text-center font-medium" dir="ltr">10kg</td>
-                                        <td class="px-4 py-3 text-sm font-bold text-left text-pink-600" dir="ltr">25kg (כל צד) x 6 🆕</td>
+                                        <td class="px-4 py-3 text-sm font-bold text-left text-pink-600" dir="ltr">25kg (כל צד) x 8 🆕</td>
                                     </tr>
-                                    <tr class="active:bg-slate-50 transition-colors">
+                                    <tr class="active:bg-slate-50 transition-colors bg-pink-50/50">
                                         <td class="px-4 py-3 text-sm font-bold text-slate-800">פשיטת ברכיים</td>
                                         <td class="px-4 py-3 text-sm text-slate-400 text-center font-medium" dir="ltr">15kg</td>
-                                        <td class="px-4 py-3 text-sm font-medium text-left text-green-600" dir="ltr">32.5kg x 8 👑</td>
+                                        <td class="px-4 py-3 text-sm font-bold text-left text-pink-600" dir="ltr">35kg x 6 🆕</td>
                                     </tr>
                                     <tr class="active:bg-slate-50 transition-colors bg-pink-50/50">
                                         <td class="px-4 py-3 text-sm font-bold text-slate-800">כפיפת ברכיים בשכיבה</td>
                                         <td class="px-4 py-3 text-sm text-slate-400 text-center font-medium" dir="ltr">10kg</td>
-                                        <td class="px-4 py-3 text-sm font-bold text-left text-pink-600" dir="ltr">4 x 10 🆕</td>
+                                        <td class="px-4 py-3 text-sm font-bold text-left text-pink-600" dir="ltr">5kg x 6 🆕</td>
                                     </tr>
                                     <tr class="active:bg-slate-50 transition-colors bg-pink-50/50">
                                         <td class="px-4 py-3 text-sm font-bold text-slate-800">לחיצת רגליים</td>
@@ -599,7 +615,7 @@
                 setTimeout(function(){ toast.className = toast.className.replace("show", ""); }, 3000);
             }
 
-            const updateMessage = "עדכון מטורף! 🔥 שיא חדש בהיפטראסט - 25 ק\"ג לכל צד ל-6 חזרות! ממשיכה להפציץ מאימון לאימון! 🚀";
+            const updateMessage = "עדכון מטורף! 🔥 שיאים חדשים נשברו: היפטראסט 25 ק\"ג ל-8 חזרות, פשיטות ברכיים 35 ק\"ג, פולי עליון 22.5 ק\"ג ל-8, בולגרי 15 ק\"ג ל-7! ממשיכה להפציץ! 🚀";
 
             // Share API (Mobile Native Share)
             shareBtn.addEventListener('click', async () => {
@@ -626,8 +642,14 @@
             const exerciseData = {
                 squat: { name: 'סקוואט', data: [27.5, 30, 32.5, 35, 37.5, 40, 42.5, 45, 45, 45, 45, 45, 47.5, 47.5, 47.5, 50, 50] },
                 rdl: { name: 'רומני דדליפט', data: [35, 35, 35, 35, 37.5, 40, 40, 42.5, 42.5, 40, 42.5, 42.5, 42.5, 45, 45, 45, 45] },
-                hipThrust: { name: 'היפטראסט', data: [10, 10, 12.5, 12.5, 12.5, 15, 15, 15, 15, 17.5, 17.5, 17.5, 17.5, 17.5, 20, 20, 25] },
-                bench: { name: "בנץ' פרס", data: [15, 17.5, 17.5, 20, 20, 20, 22.5, 22.5, 22.5, 25, 25, 25, 25, 25, 25, 25, 27.5] }
+                hipThrust: { name: 'היפטראסט', data: [10, 10, 12.5, 12.5, 12.5, 15, 15, 15, 15, 17.5, 17.5, 17.5, 17.5, 17.5, 20, 25, 25] },
+                bench: { name: "בנץ' פרס", data: [15, 17.5, 17.5, 20, 20, 20, 22.5, 22.5, 22.5, 25, 25, 25, 25, 25, 25, 25, 27.5] },
+                legExtension: { name: 'פשיטת ברכיים', data: [15, 15, 17.5, 20, 22.5, 25, 25, 27.5, 30, 30, 32.5, 32.5, 32.5, 32.5, 32.5, 32.5, 35] },
+                machinePulldown: { name: 'פולי עליון במכונה', data: [10, 10, 12.5, 12.5, 15, 15, 17.5, 17.5, 20, 20, 20, 20, 22.5, 22.5, 22.5, 22.5, 22.5] },
+                bulgarian: { name: 'סקוואט בולגרי', data: [0, 0, 0, 5, 5, 7.5, 7.5, 10, 10, 12.5, 12.5, 12.5, 15, 15, 15, 15, 15] },
+                legCurl: { name: 'כפיפת ברכיים', data: [10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 4, 5] },
+                shoulderPress: { name: 'לחיצת כתפיים', data: [10, 10, 10, 12.5, 12.5, 15, 15, 15, 17.5, 17.5, 17.5, 20, 20, 20, 20, 20, 20] },
+                graviton: { name: 'מתח גרביטון', data: [-45, -45, -40, -40, -40, -35, -35, -35, -35, -35, -33, -33, -30, -30, -28, -28, -28] }
             };
 
             function initChart() {
@@ -638,21 +660,13 @@
                 // Initialize with Squat
                 renderChart('squat');
 
-                // Add event listeners to tabs
-                document.querySelectorAll('.chart-tab').forEach(tab => {
-                    tab.addEventListener('click', (e) => {
-                        // Update active class UI
-                        document.querySelectorAll('.chart-tab').forEach(t => {
-                            t.classList.remove('bg-pink-100', 'text-pink-700', 'shadow-sm');
-                            t.classList.add('bg-white', 'text-slate-600', 'border', 'border-slate-200');
-                        });
-                        e.target.classList.remove('bg-white', 'text-slate-600', 'border', 'border-slate-200');
-                        e.target.classList.add('bg-pink-100', 'text-pink-700', 'shadow-sm');
-                        
-                        // Render the corresponding chart
-                        renderChart(e.target.dataset.exercise);
+                // Listen to select dropdown
+                const chartSelect = document.getElementById('exerciseChartSelect');
+                if (chartSelect) {
+                    chartSelect.addEventListener('change', (e) => {
+                        renderChart(e.target.value);
                     });
-                });
+                }
             }
 
             function renderChart(exerciseKey) {
@@ -721,3 +735,6 @@
     </script>
 </body>
 </html>
+
+
+```
